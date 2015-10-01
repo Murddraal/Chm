@@ -73,7 +73,7 @@ void LDU(vector <vector<chtype>> &matrix, int n, int l)
 
 void L(vector <vector<chtype>> &matrix, int i, int j,int t)
 {
-	int k = 0, border = 0, middle = (matrix[i].size() - 1) / 2, start;
+	int k = 0, border = 0, middle = (matrix[i].size() - 1) / 2, start, b1, b2, b3;
 	chtype l, summ = 0;
 	start = i - middle;
 	if (start < 0)
@@ -92,18 +92,20 @@ void L(vector <vector<chtype>> &matrix, int i, int j,int t)
 				border--;
 				continue;
 			}//		l-елементы						d-элементы		u-элементы
-			summ += matrix[i][j - border] * matrix[k][middle] * matrix[k][middle +border];
+			b1 = j - border; b2 = middle + border;
+			summ += matrix[i][b1] * matrix[k][middle] * matrix[k][b2];
 			k++;
 			border--;
 		}
 	}
-	l = (matrix[i][j] - summ) / matrix[i-middle+j][middle];
+	b3 = i - middle + j;
+	l = (matrix[i][j] - summ) / matrix[b3][middle];
 
 	matrix[i][j] = l;
 }
 void D(vector <vector<chtype>> &matrix, int i, int j, int t)
 {
-	int k = 0, middle = (matrix[i].size() - 1) / 2, border;
+	int k = 0, middle = (matrix[i].size() - 1) / 2, border, b1, b2;
 	chtype dk, summ=0;
 	if (t > 0)
 	{
@@ -117,8 +119,10 @@ void D(vector <vector<chtype>> &matrix, int i, int j, int t)
 		}
 		for (k = i-border; k < i; k++, border--)
 		{
+			b1 = middle - border;
+			b2 = middle + border;
 			//		l-елементы			d-элементы		u-элементы
-			summ += matrix[i][middle-border] * matrix[k][j] * matrix[k][middle+border];
+			summ += matrix[i][b1] * matrix[k][j] * matrix[k][b2];
 		}
 	}
 	dk = matrix[i][j] - summ;
