@@ -136,9 +136,14 @@ void U(vector <vector<chtype>> &matrix, int i, int j, int t)
 	if (t > 0)
 	{
 		if (i - middle + 1 < 0)
+		{
 			border = i;
+			if (j == matrix[i].size() - 1)
+				border = 0;
+		}
 		else
 			border = matrix[i].size() - j - 1;
+		
 		start = i - border;
 		k = start;
 		while (border>0)
