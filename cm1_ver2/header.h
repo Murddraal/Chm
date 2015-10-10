@@ -23,5 +23,6 @@ void forD(matrix &, int, int);
 void forU(matrix &, int, int, int);
 void multyplyL(matrix &);
 void multyplyU(matrix &);
+void multyplyD(matrix &);
 
 

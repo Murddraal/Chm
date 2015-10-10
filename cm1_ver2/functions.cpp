@@ -241,6 +241,13 @@ void multyplyL(matrix & Matrix)
 	}
 }
 
+void multyplyD(matrix & Matrix)
+{
+	int i = 0;
+	for (i = 0; i < Matrix.n; i++)
+		Matrix.F[i] /= Matrix.D[i];
+}
+
 void multyplyU(matrix & Matrix)
 {
 	int i = dwall, j = 0,  border = rwall;
