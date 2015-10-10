@@ -243,12 +243,17 @@ void multyplyL(matrix & Matrix)
 
 void multyplyU(matrix & Matrix)
 {
-	int i = dwall, j = 0,  border = 1;
+	int i = dwall, j = 0,  border = rwall;
 	chtype summ = 0;
-	Matrix.F[dwall] = 0;
-	Matrix.F[dwall-1] /= Matrix.U[dwall][rwall];
-	for (i = dwall; i >= 0; i--)
+	Matrix.F[dwall] /= Matrix.U[dwall][rwall];
+	
+	for (i = dwall-1; i > dwall-rwall; i--)
 	{
-		summ+=
+		for ()
+		{
+			
+		}
+		border--;
+		Matrix.F[i] = (Matrix.F[i-1]-summ)/Matrix.U[i][rwall];
 	}
 }
