@@ -1,6 +1,7 @@
 #include "header.h"
 
-void input(matrix &Matrix)
+
+void Matrix::input()
 {
 	FILE *size, *di, *al, *au;
 	int i, j;
@@ -8,40 +9,40 @@ void input(matrix &Matrix)
 	if (sizeof(chtype) == sizeof(float))
 	{
 		size = fopen("size.txt", "r");
-		fscanf(size, "%d %d", &Matrix.n, &Matrix.l);
+		fscanf(size, "%d %d", &n, &l);
 		fclose(size);
-		Matrix.L.resize(Matrix.n);
-		Matrix.U.resize(Matrix.n);
-		Matrix.D.resize(Matrix.n);
+		L.resize(n);
+		U.resize(n);
+		D.resize(n);
 
-		Matrix.middle = Matrix.l / 2;
-		for (i = 0; i < Matrix.n; i++)
+		middle = l / 2;
+		for (i = 0; i < n; i++)
 		{
-			Matrix.L[i].resize(Matrix.middle);
-			Matrix.U[i].resize(Matrix.middle);
+			L[i].resize(middle);
+			U[i].resize(middle);
 		}
 
 		//di
 		di = fopen("di.txt", "r");
-		for (i = 0; i < Matrix.n; i++)
-			fscanf(di, "%f", &Matrix.D[i]);
+		for (i = 0; i < n; i++)
+			fscanf(di, "%f", &D[i]);
 		fclose(di);
 
 		//du
 
 		au = fopen("au.txt", "r");
-		for (i = 0; i < Matrix.n; i++)
+		for (i = 0; i < n; i++)
 		{
-			for (j = 0; j < Matrix.middle; j++)
-				fscanf(au, "%f", &Matrix.U[i][j]);
+			for (j = 0; j < middle; j++)
+				fscanf(au, "%f", &U[i][j]);
 		}
 		fclose(au);
 		//al
 		al = fopen("al.txt", "r");
-		for (i = 0; i < Matrix.n; i++)
+		for (i = 0; i < n; i++)
 		{
-			for (j = 0; j < Matrix.middle; j++)
-				fscanf(al, "%f", &Matrix.L[i][j]);
+			for (j = 0; j < middle; j++)
+				fscanf(al, "%f", &L[i][j]);
 		}
 		fclose(al);
 	}
@@ -53,85 +54,81 @@ void input(matrix &Matrix)
 		if (sizeof(chtype) == sizeof(float))
 		{
 			size = fopen("size.txt", "r");
-			fscanf(size, "%d %d", &Matrix.n, &Matrix.l);
+			fscanf(size, "%d %d", &n, &l);
 			fclose(size);
-			Matrix.L.resize(Matrix.n);
-			Matrix.U.resize(Matrix.n);
-			Matrix.L.reserve(Matrix.n);
-			Matrix.U.reserve(Matrix.n);
+			L.resize(n);
+			U.resize(n);
+			D.resize(n);
 
-			Matrix.D.reserve(Matrix.n);
-			Matrix.D.resize(Matrix.n);
-
-			Matrix.middle = Matrix.l / 2;
-			for (i = 0; i < Matrix.n; i++)
+			middle = l / 2;
+			for (i = 0; i < n; i++)
 			{
-				Matrix.L[i].reserve(Matrix.middle);
-				Matrix.U[i].reserve(Matrix.middle);
-				Matrix.L[i].resize(Matrix.middle);
-				Matrix.U[i].resize(Matrix.middle);
+				L[i].reserve(middle);
+				U[i].reserve(middle);
+				L[i].resize(middle);
+				U[i].resize(middle);
 			}
 
 			//di
 			di = fopen("di.txt", "r");
-			for (i = 0; i < Matrix.n; i++)
-				fscanf(di, "%lf", &Matrix.D[i]);
+			for (i = 0; i < n; i++)
+				fscanf(di, "%lf", &D[i]);
 			fclose(di);
 
 			//du
 
 			au = fopen("au.txt", "r");
-			for (i = 0; i < Matrix.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < Matrix.middle; j++)
-					fscanf(au, "%lf", &Matrix.L[i][j]);
+				for (j = 0; j < middle; j++)
+					fscanf(au, "%lf", &L[i][j]);
 			}
-			for (int i1 = 1; i1 < Matrix.n; i1++)
+			for (int i1 = 1; i1 < n; i1++)
 			{
-				for (int i2 = i1, j1 = 0, j2 = rwall; (i2 < Matrix.n) && (i2 <= i1 + rwall) && (j2 >= 0); i2++, j2--, j1++)
+				for (int i2 = i1, j1 = 0, j2 = middle-1; (i2 < n) && (i2 <= i1 + middle-1) && (j2 >= 0); i2++, j2--, j1++)
 				{
-					Matrix.U[i1 - 1][j1] = Matrix.L[i2][j2];
+					U[i1 - 1][j1] = L[i2][j2];
 				}
 
 			}
 			//al
 			al = fopen("al.txt", "r");
-			for (i = 0; i < Matrix.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < Matrix.middle; j++)
-					fscanf(al, "%lf", &Matrix.L[i][j]);
+				for (j = 0; j < middle; j++)
+					fscanf(al, "%lf", &L[i][j]);
 			}
 		}
 	}
 }
 
-void LDU(matrix &Matrix)
+void Matrix::LDU()
 {
 	int i, j, k;
-	for (k = 0; k < Matrix.n; k++)
+	for (k = 0; k < n; k++)
 	{
 		i = k;
-		forD(Matrix, i, k);
+		forD(i, k);
 
-		for (j = rwall, i++; (j >= 0) && (i <Matrix.n); j--, i++)
+		for (j = middle-1, i++; (j >= 0) && (i <n); j--, i++)
 		{
-			forL(Matrix, i, j, k);
-			forU(Matrix, i, j, k);
+			forL(i, j, k);
+			forU(i, j, k);
 		}
 	}
 }
 
 
-void forL(matrix &Matrix, int i, int j, int t)
+void Matrix::forL(int i, int j, int t)
 {
 	int k = 0, border = 0, start, b1, b2, b3;
 	chtype l, summ = 0;
-	start = i - Matrix.middle;
+	start = i - middle;
 	if (start < 0)
 	{
 		start = 0;
 	}
-	b3 = i - Matrix.middle + j;
+	b3 = i - middle + j;
 	if (t > 0)
 	{
 		k = start;
@@ -139,57 +136,57 @@ void forL(matrix &Matrix, int i, int j, int t)
 		while (border>0)
 
 		{
-			if (Matrix.L[i][j - border] == 0)
+			if (L[i][j - border] == 0)
 			{
 				border--;
 				continue;
 			}//		l-елементы	d-элементы		u-элементы
-			b1 = j - border; b2 = Matrix.middle - border;//b2 = middle + border;
-			summ += Matrix.L[i][b1] * Matrix.D[k] * Matrix.U[b3][b2];
+			b1 = j - border; b2 = middle - border;//b2 = middle + border;
+			summ += L[i][b1] * D[k] * U[b3][b2];
 			k++;
 			border--;
 		}
 	}
 	
-	l = (Matrix.L[i][j] - summ) / Matrix.D[b3];
+	l = (L[i][j] - summ) / D[b3];
 
-	Matrix.L[i][j] = l;
+	L[i][j] = l;
 }
-void forD(matrix &Matrix, int i, int t)
+void Matrix::forD(int i, int t)
 {
 	int k = 0, border, b;
 	chtype dk, summ = 0;
 	if (t > 0)
 	{
-		if (i <= Matrix.middle)
+		if (i <= middle)
 		{
 			border = i;
 		}
 		else
 		{
-			border = Matrix.middle;
+			border = middle;
 		}
 		for (k = i - border; k < i; k++, border--)
 		{
-			b = Matrix.middle - border;
+			b = middle - border;
 			//		l-елементы			d-элементы		u-элементы
-			summ += Matrix.L[i][b] * Matrix.D[k] * Matrix.U[i][b];
+			summ += L[i][b] * D[k] * U[i][b];
 		}
 	}
-	dk = Matrix.D[i] - summ;
+	dk = D[i] - summ;
 
-	Matrix.D[i] = dk;
+	D[i] = dk;
 }
-void forU(matrix &Matrix, int i, int j, int t)
+void Matrix::forU(int i, int j, int t)
 {
 	int k = 0, border = 0, start, b1, b2, b3;
 	chtype u, summ = 0;
-	start = i - Matrix.middle;
+	start = i - middle;
 	if (start < 0)
 	{
 		start = 0;
 	}
-	b3 = i - Matrix.middle + j;
+	b3 = i - middle + j;
 	if (t > 0)
 	{
 		k = start;
@@ -197,63 +194,71 @@ void forU(matrix &Matrix, int i, int j, int t)
 		while (border>0)
 
 		{
-			if (Matrix.U[i][j - border] == 0)
+			if (U[i][j - border] == 0)
 			{
 				border--;
 				continue;
 			}//		l-елементы	d-элементы		u-элементы
-			b1 = Matrix.middle-border; b2 = j - border;//b2 = middle + border;
-			summ += Matrix.L[b3][b1] * Matrix.D[k] * Matrix.U[i][b2];
+			b1 = middle-border; b2 = j - border;//b2 = middle + border;
+			summ += L[b3][b1] * D[k] * U[i][b2];
 			k++;
 			border--;
 		}
 	}
 
-	u = (Matrix.U[i][j] - summ) / Matrix.D[b3];
+	u = (U[i][j] - summ) / D[b3];
 
-	Matrix.U[i][j] = u;
+	U[i][j] = u;
 }
 
-void multyplyL(matrix & Matrix)
+void Matrix::multyplyL()
 {
 	int i = 0, j = 0, Max=1, border = 1;
 	chtype summ=0;
 	//сначала вычисл€ютс€ первые Matrix.middle элементов, ибо в матрице происходит смещение начала строки влево
-	for (i = 1; i <= Matrix.middle; i++)
+	for (i = 1; i <= middle; i++)
 	{
 		for (j = 0; j < Max; j++)
 		{
-			summ += Matrix.F[j] * Matrix.L[i][Matrix.middle-border+j];
+			summ += F[j] * L[i][middle-border+j];
 		}
 		Max++; border++;
-		Matrix.F[i] -= summ;
+		F[i] -= summ;
 	}
 	//строка матрицы пробегаетс€ от начала до конца, но кол-во элементов вектора ограничено Matrix.middle
 	border = 1;
-	for (i = Matrix.middle + 1; i < Matrix.n; i++)
+	for (i = middle + 1; i < n; i++)
 	{
-		for (j = 0; j < Matrix.middle; j++)
+		for (j = 0; j < middle; j++)
 		{
-			summ += Matrix.F[j+border] * Matrix.L[i][j];
+			summ += F[j+border] * L[i][j];
 		}
 		border++;
-		Matrix.F[i] -= summ;
+		F[i] -= summ;
 	}
 }
 
-void multyplyU(matrix & Matrix)
+void Matrix::multyplyD()
 {
-	int i = dwall, j = 0,  border = rwall;
-	chtype summ = 0;
-	Matrix.F[dwall] /= Matrix.U[dwall][rwall];
+	int i = 0;
+	for (i = 0; i < n; i++)
+		F[i] /= D[i];
+}
+
+void Matrix::multyplyU()
+{
 	
-	for (i = dwall-1; i > dwall-rwall; i--)
+}
+
+void Matrix::output()
+{
+	for (int i = 0; i < n; i++)
 	{
-		for ()
-		{
-			
-		}
-		border--;
-		Matrix.F[i] = (Matrix.F[i-1]-summ)/Matrix.U[i][rwall];
+		for (int j = 0; j < middle; j++)
+			printf("%f ", L[i][j]);
+		printf("%f ", D[i]);
+		for (int j = 0; j < middle; j++)
+			printf("%f ", U[i][j]);
+		printf("\n");
 	}
 }

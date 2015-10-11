@@ -4,24 +4,26 @@
 #include <io.h>
 #include <vector>
 #include <iostream>
-#define dwall Matrix.n - 1
-#define rwall Matrix.middle -1
 using namespace std;
 typedef float chtype;
 
-struct matrix
+class Matrix
 {
+private:
+	int n, l, middle;
 	vector <vector <chtype>> L, U;
 	vector <chtype> D, x, y, z, F;
-	int n, l, middle;
+public:
+	void input();
+	void LDU();
+	void forL(int, int, int);
+	void forD(int, int);
+	void forU(int, int, int);
+	void multyplyL();
+	void multyplyU();
+	void multyplyD();
+	void output();
 };
 
-void input(matrix &);
-void LDU(matrix &);
-void forL(matrix &, int, int, int);
-void forD(matrix &, int, int);
-void forU(matrix &, int, int, int);
-void multyplyL(matrix &);
-void multyplyU(matrix &);
 
 
