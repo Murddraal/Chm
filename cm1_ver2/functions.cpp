@@ -238,6 +238,7 @@ void Matrix::multyplyL()
 	}
 }
 
+<<<<<<< HEAD
 void Matrix::multyplyD()
 {
 	int i = 0;
@@ -246,6 +247,16 @@ void Matrix::multyplyD()
 }
 
 void Matrix::multyplyU()
+=======
+void multyplyD(matrix & Matrix)
+{
+	int i = 0;
+	for (i = 0; i < Matrix.n; i++)
+		Matrix.F[i] /= Matrix.D[i];
+}
+
+void multyplyU(matrix & Matrix)
+>>>>>>> origin/master
 {
 	
 }
