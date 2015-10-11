@@ -24,26 +24,3 @@ public:
 	void multyplyD();
 	void output();
 };
-
-<<<<<<< HEAD
-=======
-class Matrics
-{
-private:
-	int n, l, middle;
-	vector <vector <chtype>> L, U;
-	vector <chtype> D, x, y, z, F;
-public:
-	void input(matrix &);
-	void LDU(matrix &);
-	void forL(matrix &, int, int, int);
-	void forD(matrix &, int, int);
-	void forU(matrix &, int, int, int);
-	void multyplyL(matrix &);
-	void multyplyU(matrix &);
-	void multyplyD(matrix &);
-};
-
->>>>>>> origin/master
-
-
