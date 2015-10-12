@@ -3,7 +3,7 @@
 
 void Matrix::input()
 {
-	FILE *size, *di, *al, *au;
+	FILE *size, *di, *al, *au, *f;
 	int i, j;
 	chtype buf = 0;
 	if (sizeof(chtype) == sizeof(float))
@@ -14,6 +14,7 @@ void Matrix::input()
 		L.resize(n);
 		U.resize(n);
 		D.resize(n);
+		F.resize(n);
 
 		middle = l / 2;
 		for (i = 0; i < n; i++)
@@ -21,7 +22,11 @@ void Matrix::input()
 			L[i].resize(middle);
 			U[i].resize(middle);
 		}
-
+		//f
+		f = fopen("f.txt", "r");
+		for (i = 0; i < n; i++)
+			fscanf(f, "%f", &F[i]);
+		fclose(f);
 		//di
 		di = fopen("di.txt", "r");
 		for (i = 0; i < n; i++)
@@ -69,6 +74,11 @@ void Matrix::input()
 				U[i].resize(middle);
 			}
 
+			//f
+			f = fopen("f.txt", "r");
+			for (i = 0; i < n; i++)
+				fscanf(f, "%lf", &F[i]);
+			fclose(f);
 			//di
 			di = fopen("di.txt", "r");
 			for (i = 0; i < n; i++)
@@ -259,5 +269,12 @@ void Matrix::output()
 		for (int j = 0; j < middle; j++)
 			printf("%f ", U[i][j]);
 		printf("\n");
+	}
+}
+void Matrix::vewVector()
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%f\n", F[i]);
 	}
 }

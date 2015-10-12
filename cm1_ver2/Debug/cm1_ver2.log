@@ -1,23 +1,24 @@
-﻿Сборка начата 11.10.2015 14:32:35.
-     1>Проект "C:\Users\2Dent_000\Documents\GitHub\Chm\cm1_ver2\cm1_ver2.vcxproj" в узле 2 (целевые объекты Build).
+﻿Сборка начата 12.10.2015 21:17:29.
+     1>Проект "H:\Chm\cm1_ver2\cm1_ver2.vcxproj" в узле 2 (целевые объекты Rebuild).
      1>ClCompile:
-         D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt functions.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt functions.cpp main.cpp
          main.cpp
          functions.cpp
-     1>c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(75): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
-         c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(75): note: consider using '%f' in the format string
-     1>c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(84): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
-         c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(84): note: consider using '%f' in the format string
-     1>c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(99): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
-         c:\users\2dent_000\documents\github\chm\cm1_ver2\functions.cpp(99): note: consider using '%f' in the format string
+     1>h:\chm\cm1_ver2\functions.cpp(80): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
+         h:\chm\cm1_ver2\functions.cpp(80): note: consider using '%f' in the format string
+     1>h:\chm\cm1_ver2\functions.cpp(85): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
+         h:\chm\cm1_ver2\functions.cpp(85): note: consider using '%f' in the format string
+     1>h:\chm\cm1_ver2\functions.cpp(94): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
+         h:\chm\cm1_ver2\functions.cpp(94): note: consider using '%f' in the format string
+     1>h:\chm\cm1_ver2\functions.cpp(109): warning C4477: 'fscanf' : format string '%lf' requires an argument of type 'double *', but variadic argument 1 has type 'float *'
+         h:\chm\cm1_ver2\functions.cpp(109): note: consider using '%f' in the format string
          Создание кода...
        Link:
-         D:\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\2Dent_000\Documents\GitHub\Chm\Debug\cm1_ver2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\2Dent_000\Documents\GitHub\Chm\Debug\cm1_ver2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\2Dent_000\Documents\GitHub\Chm\Debug\cm1_ver2.lib" /MACHINE:X86 Debug\functions.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\Chm\Debug\cm1_ver2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"H:\Chm\Debug\cm1_ver2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\Chm\Debug\cm1_ver2.lib" /MACHINE:X86 Debug\functions.obj
          Debug\main.obj
-         LINK : не найден или не выполнена сборка C:\Users\2Dent_000\Documents\GitHub\Chm\Debug\cm1_ver2.exe при последней инкрементной компоновке; выполняется полная компоновка
-         cm1_ver2.vcxproj -> C:\Users\2Dent_000\Documents\GitHub\Chm\Debug\cm1_ver2.exe
-     1>Сборка проекта "C:\Users\2Dent_000\Documents\GitHub\Chm\cm1_ver2\cm1_ver2.vcxproj" завершена (целевые объекты Build).
+         cm1_ver2.vcxproj -> H:\Chm\Debug\cm1_ver2.exe
+     1>Сборка проекта "H:\Chm\cm1_ver2\cm1_ver2.vcxproj" завершена (целевые объекты Rebuild).
 
 Сборка успешно завершена.
 
-Затраченное время: 00:00:01.55
+Затраченное время: 00:00:07.78

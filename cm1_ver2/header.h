@@ -23,4 +23,5 @@ public:
 	void multyplyU();
 	void multyplyD();
 	void output();
+	void vewVector();
 };
