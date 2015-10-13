@@ -228,9 +228,11 @@ void Matrix::multyplyL()
 	//сначала вычисляются первые Matrix.middle элементов, ибо в матрице происходит смещение начала строки влево
 	for (i = 1; i <= middle; i++)
 	{
+		summ = 0;
 		for (j = 0; j < Max; j++)
 		{
-			summ += F[j] * L[i][middle-border+j];
+			int k = middle - border + j;
+			summ += F[j] * L[i][k];
 		}
 		Max++; border++;
 		F[i] -= summ;
@@ -239,6 +241,7 @@ void Matrix::multyplyL()
 	border = 1;
 	for (i = middle + 1; i < n; i++)
 	{
+		summ = 0;
 		for (j = 0; j < middle; j++)
 		{
 			summ += F[j+border] * L[i][j];
