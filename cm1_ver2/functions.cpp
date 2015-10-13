@@ -223,7 +223,7 @@ void Matrix::forU(int i, int j, int t)
 
 void Matrix::multyplyL()
 {
-	int i = 0, j = 0, Max=1, border = 1;
+	int i = 0, k = 0, j = 0, Max=1, border = 1;
 	chtype summ=0;
 	//сначала вычисляются первые Matrix.middle элементов, ибо в матрице происходит смещение начала строки влево
 	for (i = 1; i <= middle; i++)
@@ -231,7 +231,7 @@ void Matrix::multyplyL()
 		summ = 0;
 		for (j = 0; j < Max; j++)
 		{
-			int k = middle - border + j;
+			k = middle - border + j;
 			summ += F[j] * L[i][k];
 		}
 		Max++; border++;
@@ -260,7 +260,23 @@ void Matrix::multyplyD()
 }
 
 void Matrix::multyplyU()
-{}
+{
+	int k = 0, i = 0, j = 0, Max = n-1, Min=0;
+	chtype summ = 0;
+	
+	for (i = n-2; i>= 0; i--)
+	{
+		summ = 0;
+		k = middle - 1;
+		for (j = i+1; ((j <= Max)&&(k >= 0)); j++, k--)
+		{
+			summ += F[j] * U[j][k];
+		}
+		
+		F[i] -= summ;
+	}
+	
+}
 
 void Matrix::output()
 {

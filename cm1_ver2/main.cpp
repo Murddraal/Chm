@@ -12,8 +12,11 @@ void main()
 	matrix.LDU();
 
 	matrix.output();
-	matrix.multyplyL();
 
+	matrix.multyplyL();
+	matrix.multyplyD();
+	matrix.multyplyU();
+	printf("\n\n\n");
 	matrix.vewVector();
 
 	
