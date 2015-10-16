@@ -6,8 +6,7 @@ void Matrix::input()
 	FILE *size, *di, *al, *au, *f;
 	int i, j;
 	chtype buf = 0;
-	if (sizeof(chtype) == sizeof(float))
-	{
+	
 		size = fopen("size.txt", "r");
 		fscanf(size, "%d %d", &n, &l);
 		fclose(size);
@@ -22,6 +21,8 @@ void Matrix::input()
 			L[i].resize(middle);
 			U[i].resize(middle);
 		}
+		if (sizeof(chtype) == sizeof(float))
+		{
 		//f
 		f = fopen("f.txt", "r");
 		for (i = 0; i < n; i++)
@@ -53,62 +54,41 @@ void Matrix::input()
 	}
 	else
 	{
-		FILE *size, *di, *al, *au;
-		int i, j;
-		chtype buf = 0;
-		if (sizeof(chtype) == sizeof(float))
+		//f
+		f = fopen("f.txt", "r");
+		for (i = 0; i < n; i++)
+			fscanf(f, "%lf", &F[i]);
+		fclose(f);
+		//di
+		di = fopen("di.txt", "r");
+		for (i = 0; i < n; i++)
+			fscanf(di, "%lf", &D[i]);
+		fclose(di);
+
+		//du
+
+		au = fopen("au.txt", "r");
+		for (i = 0; i < n; i++)
 		{
-			size = fopen("size.txt", "r");
-			fscanf(size, "%d %d", &n, &l);
-			fclose(size);
-			L.resize(n);
-			U.resize(n);
-			D.resize(n);
-
-			middle = l / 2;
-			for (i = 0; i < n; i++)
-			{
-				L[i].reserve(middle);
-				U[i].reserve(middle);
-				L[i].resize(middle);
-				U[i].resize(middle);
-			}
-
-			//f
-			f = fopen("f.txt", "r");
-			for (i = 0; i < n; i++)
-				fscanf(f, "%lf", &F[i]);
-			fclose(f);
-			//di
-			di = fopen("di.txt", "r");
-			for (i = 0; i < n; i++)
-				fscanf(di, "%lf", &D[i]);
-			fclose(di);
-
-			//du
-
-			au = fopen("au.txt", "r");
-			for (i = 0; i < n; i++)
-			{
-				for (j = 0; j < middle; j++)
-					fscanf(au, "%lf", &L[i][j]);
-			}
-			for (int i1 = 1; i1 < n; i1++)
-			{
-				for (int i2 = i1, j1 = 0, j2 = middle-1; (i2 < n) && (i2 <= i1 + middle-1) && (j2 >= 0); i2++, j2--, j1++)
-				{
-					U[i1 - 1][j1] = L[i2][j2];
-				}
-
-			}
-			//al
-			al = fopen("al.txt", "r");
-			for (i = 0; i < n; i++)
-			{
-				for (j = 0; j < middle; j++)
-					fscanf(al, "%lf", &L[i][j]);
-			}
+			for (j = 0; j < middle; j++)
+				fscanf(au, "%lf", &L[i][j]);
 		}
+		for (int i1 = 1; i1 < n; i1++)
+		{
+			for (int i2 = i1, j1 = 0, j2 = middle - 1; (i2 < n) && (i2 <= i1 + middle - 1) && (j2 >= 0); i2++, j2--, j1++)
+			{
+				U[i1 - 1][j1] = L[i2][j2];
+			}
+
+		}
+		//al
+		al = fopen("al.txt", "r");
+		for (i = 0; i < n; i++)
+		{
+			for (j = 0; j < middle; j++)
+				fscanf(al, "%lf", &L[i][j]);
+		}
+
 	}
 }
 
@@ -131,14 +111,14 @@ void Matrix::LDU()
 
 void Matrix::forL(int i, int j, int t)
 {
-	int k = 0, border = 0, start, b1, b2, b3;
+	int k = 0, border = 0, start, b1, b2, b3;//b1 - позиция j для L, b2 - позиция j для U
 	chtype l, summ = 0;
 	start = i - middle;
 	if (start < 0)
 	{
 		start = 0;
 	}
-	b3 = i - middle + j;
+	b3 = i - middle + j;//строка в U
 	if (t > 0)
 	{
 		k = start;
@@ -151,7 +131,7 @@ void Matrix::forL(int i, int j, int t)
 				border--;
 				continue;
 			}//		l-елементы	d-элементы		u-элементы
-			b1 = j - border; b2 = middle - border;//b2 = middle + border;
+			b1 = j - border; b2 = middle - border;
 			summ += L[i][b1] * D[k] * U[b3][b2];
 			k++;
 			border--;
@@ -164,7 +144,7 @@ void Matrix::forL(int i, int j, int t)
 }
 void Matrix::forD(int i, int t)
 {
-	int k = 0, border, b;
+	int k = 0, border, b;//b - позиция j элементов в U L
 	chtype dk, summ = 0;
 	if (t > 0)
 	{
@@ -280,20 +260,45 @@ void Matrix::multyplyU()
 
 void Matrix::output()
 {
-	for (int i = 0; i < n; i++)
+	if (sizeof(chtype) == sizeof(float))
 	{
-		for (int j = 0; j < middle; j++)
-			printf("%f ", L[i][j]);
-		printf("%f ", D[i]);
-		for (int j = 0; j < middle; j++)
-			printf("%f ", U[i][j]);
-		printf("\n");
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < middle; j++)
+				printf("%f ", L[i][j]);
+			printf("%f ", D[i]);
+			for (int j = 0; j < middle; j++)
+				printf("%f ", U[i][j]);
+			printf("\n");
+		}
+	}
+	else
+	{
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < middle; j++)
+				printf("%lf ", L[i][j]);
+			printf("%lf ", D[i]);
+			for (int j = 0; j < middle; j++)
+				printf("%lf ", U[i][j]);
+			printf("\n");
+		}
 	}
 }
 void Matrix::vewVector()
 {
-	for (int i = 0; i < n; i++)
+	if (sizeof(chtype) == sizeof(float))
 	{
-		printf("%f\n", F[i]);
+		for (int i = 0; i < n; i++)
+		{
+			printf("%f\n", F[i]);
+		}
+	}
+	else 
+	{
+		for (int i = 0; i < n; i++)
+		{
+			printf("%lf\n", F[i]);
+		}
 	}
 }
