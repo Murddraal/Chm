@@ -12,16 +12,15 @@ class Matrix
 private:
 	int n, l, middle;
 	vector <vector <chtype>> L, U;
-	vector <chtype> D, x, y, z, F;
+	vector <chtype> D, F;
 public:
 	void input();
 	void LDU();
-	void forL(int, int, int);
 	void forD(int, int);
-	void forU(int, int, int);
+	void forLU(int, int, int);
 	void multyplyL();
 	void multyplyU();
 	void multyplyD();
 	void output();
-	void vewVector();
+	void vewVector(bool);
 };
