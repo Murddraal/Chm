@@ -12,7 +12,7 @@ class Matrix
 {
 private:
 	int n, l, middle, k=1;
-	vector <vector <chtype>> L, U;
+	vector <vector <chtype>> L, U, G;
 	vector <chtype> D, F;
 	
 public:
@@ -25,4 +25,6 @@ public:
 	void multyplyD();
 	void output();
 	void vewVector(bool);
+	void gilbert(int);
+	void gauss();
 };

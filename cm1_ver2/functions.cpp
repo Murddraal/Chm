@@ -111,7 +111,8 @@ void Matrix::LDU()
 void Matrix::forD(int i, int t)
 {
 	int k = 0, border, b;//b - позиция j элементов в U L
-	chtype dk, summ = 0;
+	//chtype dk, summ = 0;
+	double dk, summ = 0;
 	if (t > 0)
 	{
 		if (i <= middle)
@@ -137,7 +138,8 @@ void Matrix::forD(int i, int t)
 void Matrix::forLU(int i, int j, int t)
 {
 	int k = 0, border = 0, start, b1, b2, b3;//b1 - позиция j для L, b2 - позиция j для U
-	chtype l=0, u=0, summL = 0, summU=0;
+	//chtype l=0, u=0, summL = 0, summU=0;
+	double l = 0, u = 0, summL = 0, summU = 0;
 	start = i - middle;
 	if (start < 0)
 	{
@@ -174,7 +176,8 @@ void Matrix::forLU(int i, int j, int t)
 void Matrix::multyplyL()
 {
 	int i = 0, k = 0, j = 0, Max=1, border = 1;
-	chtype summ=0;
+	//chtype summ=0;
+	double summ = 0;
 	//сначала вычисляются первые Matrix.middle элементов, ибо в матрице происходит смещение начала строки влево
 	for (i = 1; i <= middle; i++)
 	{
@@ -214,7 +217,8 @@ void Matrix::multyplyD()
 void Matrix::multyplyU()
 {
 	int k = 0, i = 0, j = 0, Max = n-1, Min=0;
-	chtype summ = 0;
+	//chtype summ = 0;
+	double summ = 0;
 	
 	for (i = n-2; i>= 0; i--)
 	{
@@ -237,10 +241,10 @@ void Matrix::output()
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < middle; j++)
-				printf("%f ", L[i][j]);
-			printf("%f ", D[i]);
+				printf("%.8f ", L[i][j]);
+			printf("%.8f ", D[i]);
 			for (int j = 0; j < middle; j++)
-				printf("%f ", U[i][j]);
+				printf("%.8f ", U[i][j]);
 			printf("\n");
 		}
 	}
@@ -249,10 +253,10 @@ void Matrix::output()
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < middle; j++)
-				printf("%lf ", L[i][j]);
-			printf("%lf ", D[i]);
+				printf("%.16lf ", L[i][j]);
+			printf("%.16lf ", D[i]);
 			for (int j = 0; j < middle; j++)
-				printf("%lf ", U[i][j]);
+				printf("%.16lf ", U[i][j]);
 			printf("\n");
 		}
 	}
@@ -265,14 +269,14 @@ void Matrix::vewVector(bool inFile)
 		{
 			for (int i = 0; i < n; i++)
 			{
-				printf("%f\n", F[i]);
+				printf("%.8f\n", F[i]);
 			}
 		}
 		else
 		{
 			for (int i = 0; i < n; i++)
 			{
-				printf("%lf\n", F[i]);
+				printf("%.16lf\n", F[i]);
 			}
 		}
 	}
@@ -284,15 +288,156 @@ void Matrix::vewVector(bool inFile)
 		{
 			for (int i = 0; i < n; i++)
 			{
-				fprintf(output, "%f\n", F[i]);
+				fprintf(output, "%.8f\n", F[i]);
 			}
 		}
 		else
 		{
 			for (int i = 0; i < n; i++)
 			{
-				fprintf(output, "%lf\n", F[i]);
+				fprintf(output, "%.16lf\n", F[i]);
 			}
 		}
 	}
+}
+
+void Matrix::gilbert(int k)
+{
+	
+	
+	vector <chtype> x;
+	G.resize(k);
+	F.resize(k);
+	x.resize(k);
+	n = k;
+	l = k * 2 - 1;
+	middle = l / 2;
+	
+	for (int i = 0; i < k; i++)//заполнение плотной матрицы гильберта
+	{
+		G[i].resize(k);
+		for (int j = 0; j < k; j++)
+			G[i][j] = (chtype)1 / (i + j + 1);
+	}
+	for (int i = 0; i < k; i++)//вектор на который умножаем
+	{
+		x[i] = i + 1;
+	}
+	for (int i = 0; i < k; i++)//умножение матриц на вектор
+	{
+		for (int j = 0; j < k; j++)
+			F[i] += G[i][j] * x[j];
+	}
+
+	D.resize(k);
+	L.resize(k);
+	U.resize(k);
+	for (int i = 0; i < k; i++)//преобразование в ленточный формат
+	{
+		L[i].resize(k - 1);
+		U[i].resize(k - 1);
+		D[i] = G[i][i];
+	
+	}
+	
+	for (int i = 0; i < k; i++)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			L[i][abs(i - j - k + 1)] = G[i][j];
+			U[i][abs(i - j - k + 1)] = G[j][i];
+		}
+	}
+
+	
+	return;
+}
+
+void Matrix::gauss()
+{
+	FILE *g, *f;
+	int i, j;
+	chtype buf = 0;
+
+	G.resize(10);
+	
+	if (sizeof(chtype) == sizeof(float))
+	{
+		//f
+		f = fopen("f.txt", "r");
+		for (i = 0; i < n; i++)
+			fscanf(f, "%f", &F[i]);
+		fclose(f);
+		//G
+		g = fopen("gauss.txt", "r");
+		for (i = 0; i < 10; i++)
+		{
+			G[i].resize(10);
+			for (j = 0; j < 10; j++)
+				fscanf(g, "%f", &G[i][j]);
+		}
+		fclose(g);
+	}
+	else
+	{
+		//f
+		f = fopen("f.txt", "r");
+		for (i = 0; i < n; i++)
+			fscanf(f, "%f", &F[i]);
+		fclose(f);
+		//G
+		g = fopen("gauss.txt", "r");
+		for (i = 0; i < 10; i++)
+		{
+			G[i].resize(10);
+			for (j = 0; j < 10; j++)
+				fscanf(g, "%f", &G[i][j]);
+		}
+		fclose(g);
+	}
+	chtype p = 10;
+	k = 16;
+	G[0][0] += pow(p, -k);
+	F[0] += pow(p, -k);
+
+	chtype max, coef, tmp;
+	vector<chtype> x;
+	x.resize(10);
+	int max_i = 0;
+	for (int i = 0; i < n; i++)
+	{
+		max = G[i][i];
+		max_i = i;
+		//Поиск максимального элемента в столбце
+		for (int j = i + 1; j < n; j++)
+			(abs(G[j][i])>max) ? max_i = j, max = abs(G[j][i]) : 0;
+		(max == 0) ? printf("the system has no solutions") : 0;
+		//Если это не обрабатываемая строка, то меняем строки
+		if (max_i != i)
+		{
+			//Перестановка в матрице и в векторе 
+			for (int k = i; k < n + 1; k++)
+				swap(G[i][k], G[max_i][k]);
+		}
+
+		//Преобразование матрицы
+		for (int j = i + 1; j < n; j++)
+		{
+			coef = G[j][i] / G[i][i];
+			G[j][i] = 0;
+			if (coef)
+				for (int k = i + 1; k < n + 1; k++)
+					G[j][k] = coef * G[i][k] - G[j][k];
+		}
+	}
+	//Решение СЛАУ 
+	for (int i = n - 1; i >= 0; i--)
+	{
+		x[i] = 0;
+		tmp = G[i][n];
+		for (int j = n - 1; j > i; j--)
+			tmp -= G[i][j] * x[j];
+		x[i] = tmp / G[i][i];
+	}
+
 }
