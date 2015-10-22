@@ -4,15 +4,17 @@
 #include <io.h>
 #include <vector>
 #include <iostream>
+#include <math.h>
 using namespace std;
-typedef float chtype;
+typedef double chtype;
 
 class Matrix
 {
 private:
-	int n, l, middle;
+	int n, l, middle, k=1;
 	vector <vector <chtype>> L, U;
 	vector <chtype> D, F;
+	
 public:
 	void input();
 	void LDU();

@@ -17,6 +17,7 @@ void Matrix::input()
 
 		middle = l / 2;
 		
+
 		if (sizeof(chtype) == sizeof(float))
 		{
 		//f
@@ -84,6 +85,10 @@ void Matrix::input()
 		}
 		fclose(al);
 	}
+		chtype p = 10;
+		k = 16;
+		D[0] += pow(p, -k);
+		F[0] += pow(p, -k);
 }
 
 void Matrix::LDU()
