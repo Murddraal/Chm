@@ -359,7 +359,9 @@ void Matrix::gauss()
 	int i, j;
 	chtype buf = 0;
 
+	n = 10;
 	G.resize(10);
+	F.resize(10);
 	
 	if (sizeof(chtype) == sizeof(float))
 	{
@@ -370,9 +372,9 @@ void Matrix::gauss()
 		fclose(f);
 		//G
 		g = fopen("gauss.txt", "r");
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < n; i++)
 		{
-			G[i].resize(10);
+			G[i].resize(n);
 			for (j = 0; j < 10; j++)
 				fscanf(g, "%f", &G[i][j]);
 		}
@@ -383,26 +385,26 @@ void Matrix::gauss()
 		//f
 		f = fopen("f.txt", "r");
 		for (i = 0; i < n; i++)
-			fscanf(f, "%f", &F[i]);
+			fscanf(f, "%lf", &F[i]);
 		fclose(f);
 		//G
 		g = fopen("gauss.txt", "r");
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < n; i++)
 		{
-			G[i].resize(10);
-			for (j = 0; j < 10; j++)
-				fscanf(g, "%f", &G[i][j]);
+			G[i].resize(n);
+			for (j = 0; j < n; j++)
+				fscanf(g, "%lf", &G[i][j]);
 		}
 		fclose(g);
 	}
 	chtype p = 10;
-	k = 16;
+	k = 0;
 	G[0][0] += pow(p, -k);
 	F[0] += pow(p, -k);
-
+	///////////////////////////////////
 	chtype max, coef, tmp;
 	vector<chtype> x;
-	x.resize(10);
+	x.resize(n);
 	int max_i = 0;
 	for (int i = 0; i < n; i++)
 	{
@@ -416,7 +418,7 @@ void Matrix::gauss()
 		if (max_i != i)
 		{
 			//Перестановка в матрице и в векторе 
-			for (int k = i; k < n + 1; k++)
+			for (int k = i; k < n; k++)
 				swap(G[i][k], G[max_i][k]);
 		}
 
@@ -426,7 +428,7 @@ void Matrix::gauss()
 			coef = G[j][i] / G[i][i];
 			G[j][i] = 0;
 			if (coef)
-				for (int k = i + 1; k < n + 1; k++)
+				for (int k = i + 1; k < n; k++)
 					G[j][k] = coef * G[i][k] - G[j][k];
 		}
 	}
@@ -434,10 +436,12 @@ void Matrix::gauss()
 	for (int i = n - 1; i >= 0; i--)
 	{
 		x[i] = 0;
-		tmp = G[i][n];
+		tmp = G[i][n-1];
 		for (int j = n - 1; j > i; j--)
 			tmp -= G[i][j] * x[j];
 		x[i] = tmp / G[i][i];
 	}
-
+	for (i = 0; i < n; i++)
+		F[i] = x[i];
+	return;
 }
